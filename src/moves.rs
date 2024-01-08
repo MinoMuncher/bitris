@@ -159,6 +159,18 @@ pub mod srs {
     pub struct SrsKickTable;
 
     impl SrsKickTable {
+        const NS: [Kick; 6] = [k!(0, 0),k!(0, 1),k!(1, 1),k!(-1, 1),k!(1, 0),k!(-1, 0)];
+		const EW: [Kick; 6] = [k!(0, 0),k!(1, 0),k!(1, 2),k!(1, 1),k!(0, 2),k!(0, 1)];
+		const SN: [Kick; 6] = [k!(0, 0),k!(0, -1),k!(-1, -1),k!(1, -1),k!(-1, 0),k!(1, 0)];
+		const WE: [Kick; 6] = [k!(0, 0),k!(-1, 0),k!(-1, 2),k!(-1, 1),k!(0, 2),k!(0, 1)];
+
+        const I_NS : [Kick; 2] = [k!(0, 0),k!(0, 1)];
+		const I_EW : [Kick; 2] = [k!(0, 0),k!(1, 0)];
+		const I_SN : [Kick; 2] = [k!(0, 0),k!(0, -1)];
+		const I_WE : [Kick; 2] = [k!(0, 0),k!(-1, 0)];
+
+
+
         const LJSZ_NE: [Kick; 5] = [k!(0,0), k!(-1,0), k!(-1, 1), k!(0,-2), k!(-1,-2)];
         const LJSZ_ES: [Kick; 5] = [k!(0,0), k!( 1,0), k!( 1,-1), k!(0, 2), k!( 1, 2)];
         const LJSZ_SW: [Kick; 5] = [k!(0,0), k!( 1,0), k!( 1, 1), k!(0,-2), k!( 1,-2)];
@@ -179,15 +191,15 @@ pub mod srs {
         const T_SE: [Kick; 5] = [k!(0,0), k!(-1,0), k!(-1, 1), k!(0,-2), k!(-1,-2)];
         const T_EN: [Kick; 5] = [k!(0,0), k!( 1,0), k!( 1,-1), k!(0, 2), k!( 1, 2)];
 
-        const I_NE: [Kick; 5] = [k!( 1, 0), k!(-1, 0), k!( 2, 0), k!(-1,-1), k!( 2, 2)];
-        const I_ES: [Kick; 5] = [k!( 0,-1), k!(-1,-1), k!( 2,-1), k!(-1, 1), k!( 2,-2)];
-        const I_SW: [Kick; 5] = [k!(-1, 0), k!( 1, 0), k!(-2, 0), k!( 1, 1), k!(-2,-2)];
-        const I_WN: [Kick; 5] = [k!( 0, 1), k!( 1, 1), k!(-2, 1), k!( 1,-1), k!(-2, 2)];
+        const I_NE: [Kick; 5] = [k!( 0, 0), k!(1, 0), k!(-2, 0), k!(-2,-1), k!( 1, 2)];
+        const I_ES: [Kick; 5] = [k!( 0, 0), k!(-1,0), k!( 2,0), k!(-1, 2), k!( 2,-1)];
+        const I_SW: [Kick; 5] = [k!(0, 0), k!( 2, 0), k!(-1, 0), k!( 2, 1), k!(-1,-2)];
+        const I_WN: [Kick; 5] = [k!( 0, 0), k!( 1, 0), k!(-2, 0), k!( 1,-2), k!(-2, 1)];
 
-        const I_NW: [Kick; 5] = [k!( 0,-1), k!(-1,-1), k!( 2,-1), k!(-1, 1), k!( 2,-2)];
-        const I_WS: [Kick; 5] = [k!( 1, 0), k!(-1, 0), k!( 2, 0), k!(-1,-1), k!( 2, 2)];
-        const I_SE: [Kick; 5] = [k!( 0, 1), k!( 1, 1), k!(-2, 1), k!( 1,-1), k!(-2, 2)];
-        const I_EN: [Kick; 5] = [k!(-1, 0), k!( 1, 0), k!(-2, 0), k!( 1, 1), k!(-2,-2)];
+        const I_NW: [Kick; 5] = [k!( 0, 0), k!(-1, 0), k!( 2,0), k!(2, -1), k!( -1, 2)];
+        const I_WS: [Kick; 5] = [k!( 0, 0), k!(1, 0), k!( -2, 0), k!(1,2), k!( -2, -1)];
+        const I_SE: [Kick; 5] = [k!( 0, 0), k!( -2, 0), k!(1, 0), k!( -2, 1), k!(1, -2)];
+        const I_EN: [Kick; 5] = [k!(0, 0), k!( -1, 0), k!(2, 0), k!( -1, -2), k!(2,1)];
 
         const O_NE: [Kick; 1] = [k!( 0, 1)];
         const O_ES: [Kick; 1] = [k!( 1, 0)];
@@ -199,85 +211,87 @@ pub mod srs {
         const O_SE: [Kick; 1] = [k!(-1, 0)];
         const O_EN: [Kick; 1] = [k!( 0,-1)];
 
-        const EMPTY: [Kick; 0] = [];
+        const O_NS: [Kick; 1] = [k!( 1, 1)];
+        const O_SN: [Kick; 1] = [k!( -1, -1)];
+        const O_EW: [Kick; 1] = [k!( -1,1)];
+        const O_WE: [Kick; 1] = [k!( 1, -1)];
 
         const LJSZ_KICKS: [&'static [Kick]; 12] = [
             // from North
             &Self::LJSZ_NE,
             &Self::LJSZ_NW,
-            &Self::EMPTY,
+            &Self::NS,
             // from East
             &Self::LJSZ_ES,
             &Self::LJSZ_EN,
-            &Self::EMPTY,
+            &Self::EW,
             // from South
             &Self::LJSZ_SW,
             &Self::LJSZ_SE,
-            &Self::EMPTY,
+            &Self::SN,
             // from West
             &Self::LJSZ_WN,
             &Self::LJSZ_WS,
-            &Self::EMPTY,
+            &Self::WE,
         ];
         const T_KICKS: [&'static [Kick]; 12] = [
             // from North
             &Self::T_NE,
             &Self::T_NW,
-            &Self::EMPTY,
+            &Self::NS,
             // from East
             &Self::T_ES,
             &Self::T_EN,
-            &Self::EMPTY,
+            &Self::EW,
             // from South
             &Self::T_SW,
             &Self::T_SE,
-            &Self::EMPTY,
+            &Self::SN,
             // from West
             &Self::T_WN,
             &Self::T_WS,
-            &Self::EMPTY,
+            &Self::WE,
         ];
         const I_KICKS: [&'static [Kick]; 12] = [
             // from North
             &Self::I_NE,
             &Self::I_NW,
-            &Self::EMPTY,
+            &Self::I_NS,
             // from East
             &Self::I_ES,
             &Self::I_EN,
-            &Self::EMPTY,
+            &Self::I_EW,
             // from South
             &Self::I_SW,
             &Self::I_SE,
-            &Self::EMPTY,
+            &Self::I_SN,
             // from West
             &Self::I_WN,
             &Self::I_WS,
-            &Self::EMPTY,
+            &Self::I_WE,
         ];
         const O_KICKS: [&'static [Kick]; 12] = [
             // from North
             &Self::O_NE,
             &Self::O_NW,
-            &Self::EMPTY,
+            &Self::O_NS,
             // from East
             &Self::O_ES,
             &Self::O_EN,
-            &Self::EMPTY,
+            &Self::O_EW,
             // from South
             &Self::O_SW,
             &Self::O_SE,
-            &Self::EMPTY,
+            &Self::O_SN,
             // from West
             &Self::O_WN,
             &Self::O_WS,
-            &Self::EMPTY,
+            &Self::O_WE,
         ];
     }
 
     impl RotationSystem for SrsKickTable {
         fn iter_kicks(&self, piece: Piece, rotation: Rotation) -> Iter<'_, Kick> {
-            assert_ne!(rotation, Rotation::R180, "This kick table does not support 180 rotation.");
             let index = piece.orientation as usize * 3 + rotation as usize;
             match piece.shape {
                 Shape::L | Shape::J | Shape::S | Shape::Z => Self::LJSZ_KICKS[index].iter(),

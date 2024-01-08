@@ -98,6 +98,7 @@ pub(crate) mod moves64 {
 
         #[inline]
         pub fn is_free(&self, orientation: Orientation, position: BlPosition) -> bool {
+            if position.lx < 0{return false}
             0 < (self.boards[orientation as usize].cols[position.lx as usize] & 1 << position.by)
         }
     }
